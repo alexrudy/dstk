@@ -10,11 +10,6 @@ import numpy
 import os
 import platform
 
-if platform.system() == 'Darwin':
-    os.environ["CC"] = "/usr/local/Cellar/gcc48/4.8.5/bin/gcc-4.8"
-    os.environ["CXX"] = "/usr/local/Cellar/gcc48/4.8.5/bin/gcc-4.8"
-
-
 extensions = [
     Extension(name="DSTK.Timeseries._recurrence_map",
               sources=['DSTK/Timeseries/_recurrence_map.pyx'],
