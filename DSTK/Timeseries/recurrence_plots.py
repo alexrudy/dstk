@@ -1,4 +1,5 @@
-import _recurrence_map
+from __future__ import absolute_import
+from . import _recurrence_map
 import numpy as np
 
 

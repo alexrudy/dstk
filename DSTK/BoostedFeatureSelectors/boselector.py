@@ -1,9 +1,10 @@
 from __future__ import division
+from __future__ import absolute_import
 
 from sklearn.linear_model import LogisticRegressionCV, SGDClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
-from base_selector import BaseSelector
+from .base_selector import BaseSelector
 from sklearn.base import BaseEstimator
 from sklearn.metrics import accuracy_score, make_scorer
 from sklearn.model_selection import GridSearchCV

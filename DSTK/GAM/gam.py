@@ -1,4 +1,5 @@
 from __future__ import division
+from __future__ import print_function
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.tree._tree import TREE_LEAF, TREE_UNDEFINED, Tree
 from sklearn.metrics import roc_auc_score
@@ -367,7 +368,7 @@ class SmoothGAM(BaseGAM):
             penalties = [penalty]
 
         for key, shape in self.gam.shapes.iteritems():
-            print 'processing shape `{}`'.format(key)
+            print('processing shape `{}`'.format(key))
             self.shapes.update({key: SmoothGAM._create_smooth_shape(shape, data[key], key, penalties)})
 
     @staticmethod

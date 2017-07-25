@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy as np
 import tensorflow as tf
 
@@ -101,7 +102,7 @@ class SimpleAutoencoder(object):
             all_weights['biases_{}'.format(component)] = dict()
 
             for idx, dim in enumerate(matrix_dims):
-                print "{} layer {}, dimensionality {} -> {}".format(component, idx + 1, dim[0], dim[1])
+                print("{} layer {}, dimensionality {} -> {}".format(component, idx + 1, dim[0], dim[1]))
                 all_weights['weights_{}'.format(component)].update(
                     {'h{}'.format(idx + 1): tf.Variable(_xavier_init(dim[0], dim[1]))})
 
@@ -280,8 +281,8 @@ class SimpleAutoencoder(object):
 
             # Display logs per epoch step
             if (epoch+1) % display_step == 0:
-                print "Epoch:", '{0:04d} / {1:04d}'.format(epoch + 1, n_epochs), \
-                    "cost=", "{:.9f}".format(self._recording['batch_cost'][-1])
+                print("Epoch:", '{0:04d} / {1:04d}'.format(epoch + 1, n_epochs), \
+                    "cost=", "{:.9f}".format(self._recording['batch_cost'][-1]))
 
 
 class DataSet(object):

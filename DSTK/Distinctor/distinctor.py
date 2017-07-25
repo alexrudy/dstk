@@ -2,6 +2,7 @@ from __future__ import division
 import numpy as np
 from fuzzywuzzy import fuzz
 from functools import partial
+import six
 
 
 def inv_luminance_ratio(val_0, val_1):
@@ -167,11 +168,11 @@ class Distinctor(object):
 
     @staticmethod
     def _get_single_attribute_matchers(attribute_to_matcher_dict):
-        return {attr: matcher for attr, matcher in attribute_to_matcher_dict.iteritems() if isinstance(attr, str)}
+        return {attr: matcher for attr, matcher in six.iteritems(attribute_to_matcher_dict) if isinstance(attr, str)}
 
     @staticmethod
     def _get_two_attribute_matchers(attribute_to_matcher_dict):
-        return {attr: matcher for attr, matcher in attribute_to_matcher_dict.iteritems() if (isinstance(attr, tuple) and (len(attr) == 2))}
+        return {attr: matcher for attr, matcher in six.iteritems(attribute_to_matcher_dict) if (isinstance(attr, tuple) and (len(attr) == 2))}
 
     def compute_match_vector(self, record_0, record_1):
         dct = dict()
