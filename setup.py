@@ -22,8 +22,9 @@ setup(
     author="Johannes Otterbach",
     author_email="johannesotterbach@gmail.com",
     name="DSTK",
-    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
+    packages=find_packages(),
     version=DSTK.__version__,
+    zip_safe=False,
     description="Data Science Toolkit",
     url='https://github.com/jotterbach/dstk',
     install_requires=[
@@ -33,7 +34,6 @@ setup(
         'sklearn',
         'pandas',
         'fuzzywuzzy',
-        'futures',
         'statsmodels',
         'patsy',
         'cython'

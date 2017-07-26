@@ -1,0 +1,6 @@
+include README.rst
+include LICENSE
+
+recursive-include DSTK *.pyx
+exclude *.pyc *.o
+prune build
