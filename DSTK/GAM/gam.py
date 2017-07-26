@@ -1,5 +1,7 @@
 from __future__ import division
 from __future__ import print_function
+from builtins import zip
+from builtins import range
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.tree._tree import TREE_LEAF, TREE_UNDEFINED, Tree
 from sklearn.metrics import roc_auc_score
@@ -65,7 +67,7 @@ def _get_sum_of_gamma_correction(tree, data, labels, class_weights, feature_name
     for vec, label, weight in zip(data, labels, class_weights):
         node_id, lower, upper = _recurse(tree, vec)
 
-        if node_id in sum_of_labels.keys():
+        if node_id in list(sum_of_labels.keys()):
             num_of_samples[node_id] += 1
             sum_of_labels[node_id] += weight * label
             weighted_sum_of_labels[node_id] += weight * np.abs(label) * (2 - np.abs(label))
@@ -226,7 +228,7 @@ class GAM(BaseGAM):
 
     def _initialize_class_weights(self, labels):
         cntr = Counter(labels)
-        bin_count = np.asarray([x[1] for x in sorted(cntr.items(), key=itemgetter(0))])
+        bin_count = np.asarray([x[1] for x in sorted(list(cntr.items()), key=itemgetter(0))])
         self.class_weights = bin_count.sum() / (2.0 * bin_count)
 
     def _get_class_weights(self, labels):
@@ -270,7 +272,7 @@ class GAM(BaseGAM):
 
             new_shapes = self._calculate_gradient_shape(x_train, y_train, bag_indices=bags, max_workers=num_workers)
 
-            self.shapes = {dim: self.shapes[dim].add(shape.multiply(lr)) for dim, shape in new_shapes.iteritems()}
+            self.shapes = {dim: self.shapes[dim].add(shape.multiply(lr)) for dim, shape in new_shapes.items()}
 
             acc, prec, prev, rec, auc = self._train_cost(x_test, y_test)
 
@@ -292,7 +294,7 @@ class GAM(BaseGAM):
     def _calculate_gradient_shape(self, data, labels, bag_indices=None, max_workers=1):
 
         if bag_indices is None:
-            bag_indices = range(len(labels))
+            bag_indices = list(range(len(labels)))
 
         for bag_idx, bag in enumerate(bag_indices):
             x_train = data[bag, :]
@@ -336,7 +338,7 @@ class GAM(BaseGAM):
                 old_shapes = new_shapes.copy()
                 new_shapes = {res[0]: old_shapes[res[0]].add(res[1]) for res in results}
 
-        return {name: shape.multiply(1 / len(bag_indices)) for name, shape in new_shapes.iteritems()}
+        return {name: shape.multiply(1 / len(bag_indices)) for name, shape in new_shapes.items()}
 
 
 class SmoothGAM(BaseGAM):
@@ -367,7 +369,7 @@ class SmoothGAM(BaseGAM):
         if isinstance(penalty, float):
             penalties = [penalty]
 
-        for key, shape in self.gam.shapes.iteritems():
+        for key, shape in self.gam.shapes.items():
             print('processing shape `{}`'.format(key))
             self.shapes.update({key: SmoothGAM._create_smooth_shape(shape, data[key], key, penalties)})
 

@@ -53,7 +53,7 @@ def test_sgdbolasso_with_cv():
     np.testing.assert_almost_equal(rscv.best_score_, [0.95079086116], decimal=6)
 
     assert_dict = {'alpha': 0.001, 'eta0': 0.10000000000000001, 'n_iter': 5}
-    for key, val in assert_dict.iteritems():
+    for key, val in assert_dict.items():
         np.testing.assert_almost_equal(rscv.best_params_[key], val)
 
     stats_df = estim.get_feature_stats()

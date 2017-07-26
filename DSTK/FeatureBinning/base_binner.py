@@ -1,11 +1,11 @@
+from builtins import zip
 import abc
 import numpy as np
 import warnings
+from future.utils import with_metaclass
 
 
-class BaseBinner(object):
-    __metaclass__ = abc.ABCMeta
-
+class BaseBinner(with_metaclass(abc.ABCMeta, object)):
     @abc.abstractproperty
     def splits(self):
         raise NotImplementedError

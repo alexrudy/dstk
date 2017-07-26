@@ -1,3 +1,4 @@
+from builtins import zip
 import pytest
 import numpy as np
 import DSTK.GAM.utils.p_splines as ps

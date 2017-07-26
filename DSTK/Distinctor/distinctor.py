@@ -168,11 +168,11 @@ class Distinctor(object):
 
     @staticmethod
     def _get_single_attribute_matchers(attribute_to_matcher_dict):
-        return {attr: matcher for attr, matcher in six.iteritems(attribute_to_matcher_dict) if isinstance(attr, str)}
+        return {attr: matcher for attr, matcher in attribute_to_matcher_dict.items() if isinstance(attr, str)}
 
     @staticmethod
     def _get_two_attribute_matchers(attribute_to_matcher_dict):
-        return {attr: matcher for attr, matcher in six.iteritems(attribute_to_matcher_dict) if (isinstance(attr, tuple) and (len(attr) == 2))}
+        return {attr: matcher for attr, matcher in attribute_to_matcher_dict.items() if (isinstance(attr, tuple) and (len(attr) == 2))}
 
     def compute_match_vector(self, record_0, record_1):
         dct = dict()
@@ -182,13 +182,13 @@ class Distinctor(object):
 
     def _compute_one_attribute_matches(self, record_0, record_1):
         return {attr: matcher(record_0[attr], record_1[attr])
-                for attr, matcher in self.single_attribute_matchers.iteritems()}
+                for attr, matcher in self.single_attribute_matchers.items()}
 
     def _compute_two_attribute_matches(self, record_0, record_1):
         return {attr[0] + '__to__' + attr[1]: matcher(record_0[attr[0]], record_1[attr[1]],
                                                       record_0[attr[1]], record_1[attr[0]])
-                for attr, matcher in self.two_attribute_matchers.iteritems()}
+                for attr, matcher in self.two_attribute_matchers.items()}
 
     def compute_match_vector_mean(self, record_0, record_1):
-        return np.mean([matcher(record_0[attr], record_1[attr]) for attr, matcher in self.single_attribute_matchers.iteritems()] +
-                       [matcher(record_0[attr[0]], record_1[attr[1]],record_0[attr[1]], record_1[attr[0]]) for attr, matcher in self.two_attribute_matchers.iteritems()])
+        return np.mean([matcher(record_0[attr], record_1[attr]) for attr, matcher in self.single_attribute_matchers.items()] +
+                       [matcher(record_0[attr[0]], record_1[attr[1]],record_0[attr[1]], record_1[attr[0]]) for attr, matcher in self.two_attribute_matchers.items()])

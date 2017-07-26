@@ -1,4 +1,6 @@
 from __future__ import division
+from builtins import zip
+from builtins import range
 import numpy as np
 from datetime import datetime
 import json as js
@@ -10,7 +12,7 @@ class ShapeFunction(object):
 
     def __init__(self, list_of_splits, list_of_values, name):
         assert len(list_of_splits) == len(list_of_values), 'splits and values need to be of the same length'
-        assert all(list_of_splits[i] <= list_of_splits[i+1] for i in xrange(len(list_of_splits)-1)), 'range of splits has to be sorted!'
+        assert all(list_of_splits[i] <= list_of_splits[i+1] for i in range(len(list_of_splits)-1)), 'range of splits has to be sorted!'
 
         self.splits = np.asarray(list_of_splits, dtype=np.float64)
         self.values = np.asarray(list_of_values, dtype=np.float64)

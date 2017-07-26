@@ -7,11 +7,10 @@ import os
 from DSTK.GAM.utils.shape_function import ShapeFunction
 from DSTK.utils.function_helpers import sigmoid
 import abc
+from future.utils import with_metaclass
 
 
-class BaseGAM(object):
-    __metaclass__ = abc.ABCMeta
-
+class BaseGAM(with_metaclass(abc.ABCMeta, object)):
     def __init__(self):
         self.shapes = dict()
         self.is_fit = False
@@ -23,14 +22,14 @@ class BaseGAM(object):
         return self.feature_names.index(feature_name)
 
     def logit_score(self, vec):
-        return np.sum([func.get_value(vec[self._get_index_for_feature(feat)]) for feat, func in self.shapes.iteritems()])
+        return np.sum([func.get_value(vec[self._get_index_for_feature(feat)]) for feat, func in self.shapes.items()])
 
     def _score_single_record(self, vec):
-        return [sigmoid(-2 * np.sum([func.get_value(vec[self._get_index_for_feature(feat)]) for feat, func in self.shapes.iteritems()])), \
-                sigmoid( 2 * np.sum([func.get_value(vec[self._get_index_for_feature(feat)]) for feat, func in self.shapes.iteritems()]))]
+        return [sigmoid(-2 * np.sum([func.get_value(vec[self._get_index_for_feature(feat)]) for feat, func in self.shapes.items()])), \
+                sigmoid( 2 * np.sum([func.get_value(vec[self._get_index_for_feature(feat)]) for feat, func in self.shapes.items()]))]
 
     def _get_feature_value_pair_single_record(self, vec):
-        return sorted([(feat, func.get_value(vec[self._get_index_for_feature(feat)])) for feat, func in self.shapes.iteritems()], key=lambda x: x[1])
+        return sorted([(feat, func.get_value(vec[self._get_index_for_feature(feat)])) for feat, func in self.shapes.items()], key=lambda x: x[1])
 
     def feature_value_pairs(self, X):
         if isinstance(X, pandas.core.frame.DataFrame):
@@ -83,7 +82,7 @@ class BaseGAM(object):
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
-        for shape in self.shapes.itervalues():
+        for shape in self.shapes.values():
             shape.serialize('{}/{}/shapes'.format(file_path, model_name), meta_data={'model_name': model_name})
 
         meta_data_dct = self._get_metadata_dict()

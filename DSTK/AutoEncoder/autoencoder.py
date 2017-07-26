@@ -1,4 +1,7 @@
 from __future__ import print_function
+from __future__ import division
+from builtins import zip
+from builtins import range
 import numpy as np
 import tensorflow as tf
 
@@ -85,7 +88,7 @@ class SimpleAutoencoder(object):
 
     @staticmethod
     def _create_matrix_and_bias_sizes(n_input, lst_of_encoder_layer_sizes, n_compressed):
-        matrix_dims = zip([n_input] + lst_of_encoder_layer_sizes, lst_of_encoder_layer_sizes + [n_compressed])
+        matrix_dims = list(zip([n_input] + lst_of_encoder_layer_sizes, lst_of_encoder_layer_sizes + [n_compressed]))
         bias_dims = [tup[1] for tup in matrix_dims]
         return matrix_dims, bias_dims
 
@@ -194,18 +197,18 @@ class SimpleAutoencoder(object):
 
         # Weight matrix regularization loss
         weight_reg = 0
-        for val in self.network_weights['weights_encoder'].itervalues():
+        for val in self.network_weights['weights_encoder'].values():
             weight_reg += tf.reduce_sum(tf.square(val))
 
-        for val in self.network_weights['weights_decoder'].itervalues():
+        for val in self.network_weights['weights_decoder'].values():
             weight_reg += tf.reduce_sum(tf.square(val))
 
         # Bias vector regularization loss
         bias_reg = 0
-        for val in self.network_weights['biases_encoder'].itervalues():
+        for val in self.network_weights['biases_encoder'].values():
             bias_reg += tf.reduce_sum(tf.square(val))
 
-        for val in self.network_weights['biases_decoder'].itervalues():
+        for val in self.network_weights['biases_decoder'].values():
             bias_reg += tf.reduce_sum(tf.square(val))
 
         self.cost = tf.reduce_mean(reconstr_loss) + (self.weight_regularization * weight_reg + self.bias_regularization * bias_reg) / (2 * self.batch_size)

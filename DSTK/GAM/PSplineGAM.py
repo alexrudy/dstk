@@ -1,4 +1,5 @@
 from __future__ import division
+from builtins import range
 import scipy as sp
 import numpy as np
 from statsmodels import api as sm

@@ -38,7 +38,7 @@ def _filter_special_values(values, filter_values):
         special_vals_idx_dct.update({str(val): idx})
 
     all_special_idx = list()
-    for vals in special_vals_idx_dct.values():
+    for vals in list(special_vals_idx_dct.values()):
         all_special_idx += vals.tolist()
 
     all_special_idx = np.asarray(all_special_idx)

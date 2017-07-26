@@ -1,5 +1,7 @@
 from __future__ import division
 
+from builtins import zip
+from builtins import range
 import pandas as pd
 import numpy as np
 import sys
@@ -8,11 +10,10 @@ from DSTK.utils import sampling_helpers as sh
 from sklearn.metrics import precision_score, accuracy_score, recall_score, roc_auc_score
 
 import abc
+from future.utils import with_metaclass
 
 
-class BaseSelector(object):
-    __metaclass__ = abc.ABCMeta
-
+class BaseSelector(with_metaclass(abc.ABCMeta, object)):
     @abc.abstractmethod
     def _get_feature_coeff(self):
         raise NotImplementedError

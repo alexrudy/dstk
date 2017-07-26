@@ -23,7 +23,7 @@ class CategoricalNaiveBayesBinner(object):
 
         cat_to_idx_dct = {cat: np.where(cat == categories)[0] for cat in self.categories}
 
-        for cat, grp_idx in cat_to_idx_dct.iteritems():
+        for cat, grp_idx in cat_to_idx_dct.items():
             mean = targets[grp_idx].mean()
             pos_count = targets[grp_idx].sum()
             neg_count = targets[grp_idx].size - pos_count

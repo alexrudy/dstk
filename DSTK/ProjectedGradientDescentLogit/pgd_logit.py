@@ -1,3 +1,6 @@
+from __future__ import division
+from builtins import range
+from builtins import object
 import tensorflow as tf
 import numpy as np
 import sys
@@ -121,7 +124,7 @@ class DataSet(object):
 
     def reset_counter(self):
 
-        rand_idx = np.random.permutation(range(self.n_samples))
+        rand_idx = np.random.permutation(list(range(self.n_samples)))
         self.data = self.data[rand_idx, :]
         self.target = self.target[rand_idx]
         self.current_batch = 0
