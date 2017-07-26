@@ -63,7 +63,7 @@ class ProjectedGradientDescentLogit(object):
         return tf.nn.sigmoid(tf.matmul(self.x, self.W) + self.b, name="sigmoid")
 
     def _loss(self):
-        return tf.nn.sigmoid_cross_entropy_with_logits(tf.matmul(self.x, self.W) + self.b, self.y, name="log_loss")
+        return tf.nn.sigmoid_cross_entropy_with_logits(logits=tf.matmul(self.x, self.W) + self.b, labels=self.y, name="log_loss")
 
     def _clipper(self):
         '''
