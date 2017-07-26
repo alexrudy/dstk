@@ -1,6 +1,7 @@
 import sklearn.datasets as ds
 import numpy as np
 from DSTK.FeatureBinning import decision_tree_binner as tfb
+import re
 
 cancer_ds = ds.load_breast_cancer()
 data = cancer_ds['data']
@@ -30,20 +31,20 @@ def test_recursion_with_mdlp():
                                             [1.0, 0.0],
                                             [0.37258347978910367, 0.62741652021089633]])
 
+assert_pat = \
+r"""<= 13.094999[\d]+: \[ 0.049[\d]+  0.950[\d]+\]
+<= 15.045000[\d]+: \[ 0.2878[\d]+  0.7121[\d]+\]
+<= 17.880001[\d]+: \[ 0.8533[\d]+  0.1466[\d]+\]
+<= inf: \[ 1.[\d]*  0.[\d]*\]
+NaN: \[ 0.3725[\d]+  0.6274[\d]+\]"""
+
 
 def test_str_repr_with_mdlp():
-
-    assert_str = \
-    """<= 13.0949993134: [ 0.0490566  0.9509434]
-<= 15.0450000763: [ 0.28787879  0.71212121]
-<= 17.8800010681: [ 0.85333333  0.14666667]
-<= inf: [ 1.  0.]
-NaN: [ 0.37258348  0.62741652]"""
 
     binner = tfb.DecisionTreeBinner('test', mdlp=True)
     binner.fit(data[:, 0], target)
 
-    assert str(binner) == assert_str
+    assert re.match(assert_pat, str(binner))
 
 
 def test_fit():

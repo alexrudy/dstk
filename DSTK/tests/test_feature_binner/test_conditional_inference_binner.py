@@ -2,6 +2,7 @@ import sklearn.datasets as ds
 from DSTK.FeatureBinning.conditional_inference_binner import ConditionalInferenceBinner
 import numpy as np
 import pandas as pd
+import re
 
 cancer_ds = ds.load_breast_cancer()
 cancer_data = cancer_ds['data']
@@ -10,13 +11,13 @@ cancer_target = cancer_ds['target']
 cancer_df = pd.DataFrame(cancer_data, columns=cancer_ds['feature_names'])
 
 
-assert_str = \
-"""<= 11.75: [ 0.02  0.98]
-<= 13.0799999237: [ 0.08695652  0.91304348]
-<= 15.0399999619: [ 0.28787879  0.71212121]
-<= 16.8400001526: [ 0.81481481  0.18518519]
-<= inf: [ 0.99152542  0.00847458]
-NaN: [ 0.37258348  0.62741652]"""
+assert_pat = \
+r"""<= 11.75: \[ 0.02  0.98\]
+<= 13.07999[\d]+: \[ 0.08695[\d]+  0.91304[\d]+\]
+<= 15.039999[\d]+: \[ 0.28787[\d]+  0.71212[\d]+\]
+<= 16.84000[\d]+: \[ 0.8148[\d]+  0.1851[\d]+\]
+<= inf: \[ 0.9915[\d]+  0.0084[\d]+\]
+NaN: \[ 0.3725[\d]+  0.6274[\d]+\]"""
 
 
 def test_recursion():
@@ -41,7 +42,7 @@ def test_string_repr():
     cib = ConditionalInferenceBinner('test_dim_{}'.format(col), alpha=0.95)
     cib.fit(data, cancer_target)
 
-    assert str(cib) == assert_str
+    assert re.match(assert_pat, str(cib))
 
 
 def test_adding_bin():
