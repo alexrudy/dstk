@@ -1,11 +1,9 @@
 language: python
 python:
   - "2.7"
-# command to install dependencies
+  - "3.5"
 install:
-  - pip install -U pip
-  - pip install -r requirements.txt
-  - python setup.py develop
+  - pip install tox-travis
 # command to run tests
 script:
-  - tox --sitepackages
+  - tox
