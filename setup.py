@@ -31,7 +31,7 @@ setup(
         'numpy',
         'scipy',
         'tensorflow',
-        'sklearn',
+        'scikit-learn',
         'pandas',
         'fuzzywuzzy',
         'statsmodels',
