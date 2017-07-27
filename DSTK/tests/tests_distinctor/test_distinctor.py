@@ -2,7 +2,7 @@ import DSTK.Distinctor.distinctor as dst
 import pandas as pd
 from datetime import date
 import numpy as np
-
+import pytest
 
 data_dct = {
     'a': [1, 2, 3],
@@ -23,13 +23,20 @@ attribute_to_matcher_dct = {
 
 dstnctr = dst.Distinctor(attribute_to_matcher_dct)
 
-
-def test_distinctor():
-
-    assert dstnctr.compute_match_vector(test_df.ix[0], test_df.ix[1]) == {'a': 0.33333333333333331, 'c': 0.33333333333333331, 'b': 0.8, 'd__to__e': 0.36787944117144233}
-    assert dstnctr.compute_match_vector(test_df.ix[0], test_df.ix[2]) == {'a': 0.50000000000000011, 'c': 0.25, 'b': 0.0, 'd__to__e': 1.0}
-    assert dstnctr.compute_match_vector(test_df.ix[1], test_df.ix[2]) == {'a': 0.20000000000000004, 'c': 0.75, 'b': 0.0, 'd__to__e': 0.36787944117144233}
-
+def check_distinctor_dict(actual, desired):
+    """Check a dictionary for matches."""
+    assert not (set(actual.keys()) ^ set(desired.keys()))
+    for key, value in desired.items():
+        assert key in actual
+        np.testing.assert_allclose(actual[key], value)
+    
+@pytest.mark.parametrize("left, right, vector",[
+    (0, 1, {'a': 0.33333333333333331, 'c': 0.33333333333333331, 'b': 0.8, 'd__to__e': 0.36787944117144233}),
+    (0, 2, {'a': 0.50000000000000011, 'c': 0.25, 'b': 0.0, 'd__to__e': 1.0}),
+    (1, 2, {'a': 0.20000000000000004, 'c': 0.75, 'b': 0.0, 'd__to__e': 0.36787944117144233}),
+])
+def test_distinctor(left, right, vector):
+    check_distinctor_dict(dstnctr.compute_match_vector(test_df.ix[left], test_df.ix[right]), vector)
 
 def test_distinctor_mean():
     np.testing.assert_almost_equal(dstnctr.compute_match_vector_mean(test_df.ix[0], test_df.ix[1]), 0.45863652695952728, 6)

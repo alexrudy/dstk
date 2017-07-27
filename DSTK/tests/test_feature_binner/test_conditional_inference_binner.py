@@ -26,8 +26,8 @@ def test_recursion():
     cib = ConditionalInferenceBinner('test_dim_{}'.format(col), alpha=0.95)
     cib.fit(data, cancer_target)
 
-    np.testing.assert_equal(cib.splits, [11.75, 13.079999923706055, 15.039999961853027, 16.84000015258789, np.PINF, np.NaN])
-    np.testing.assert_equal(cib.values,
+    np.testing.assert_allclose(cib.splits, [11.75, 13.079999923706055, 15.039999961853027, 16.84000015258789, np.PINF, np.NaN])
+    np.testing.assert_allclose(cib.values,
                             [[0.02, 0.97999999999999998],
                              [0.086956521739130432, 0.91304347826086951],
                              [0.2878787878787879, 0.71212121212121215],
@@ -53,8 +53,8 @@ def test_adding_bin():
 
     cib.add_bin(-1.0, [0.1, 0.9])
 
-    np.testing.assert_equal(cib.splits, [-1.0, 11.75, 13.079999923706055, 15.039999961853027, 16.84000015258789, np.PINF, np.NaN])
-    np.testing.assert_equal(cib.values,
+    np.testing.assert_allclose(cib.splits, [-1.0, 11.75, 13.079999923706055, 15.039999961853027, 16.84000015258789, np.PINF, np.NaN])
+    np.testing.assert_allclose(cib.values,
                             [[0.1, 0.9],
                              [0.02, 0.97999999999999998],
                              [0.086956521739130432, 0.91304347826086951],
@@ -71,8 +71,8 @@ def test_adding_bin_with_non_numeric_splits_only():
     cib.is_fit = True
 
     cib.add_bin(-1.0, [0.3, 0.7])
-    np.testing.assert_equal(cib.splits, [-1.0, np.PINF, np.NaN])
-    np.testing.assert_equal(cib.values, [[0.3, 0.7], [0.1, 0.9], [0.8, 0.2]])
+    np.testing.assert_allclose(cib.splits, [-1.0, np.PINF, np.NaN])
+    np.testing.assert_allclose(cib.values, [[0.3, 0.7], [0.1, 0.9], [0.8, 0.2]])
 
 
 def test_recursion_with_nan():
@@ -84,8 +84,8 @@ def test_recursion_with_nan():
     cib = ConditionalInferenceBinner('test_dim_{}'.format(col), alpha=0.95)
     cib.fit(data, cancer_target)
 
-    np.testing.assert_equal(cib.splits, [471.29998779296875, 555.0999755859375, 693.7000122070312, 880.2000122070312, np.PINF, np.NaN])
-    np.testing.assert_equal(cib.values,
+    np.testing.assert_allclose(cib.splits, [471.29998779296875, 555.0999755859375, 693.7000122070312, 880.2000122070312, np.PINF, np.NaN])
+    np.testing.assert_allclose(cib.values,
                             [[0.030769230769230771, 0.96923076923076923],
                              [0.13414634146341464, 0.86585365853658536],
                              [0.31730769230769229, 0.68269230769230771],
@@ -106,8 +106,8 @@ def test_recursion_with_nan_and_special_value():
     cib = ConditionalInferenceBinner('test_dim_{}'.format(col), alpha=0.95, special_values=[-1.0, np.NaN])
     cib.fit(data, cancer_target)
 
-    np.testing.assert_equal(cib.splits, [-1.0, 471.29998779296875, 572.2999877929688, 693.7000122070312, 819.7999877929688, np.PINF, np.NaN])
-    np.testing.assert_equal(cib.values,
+    np.testing.assert_allclose(cib.splits, [-1.0, 471.29998779296875, 572.2999877929688, 693.7000122070312, 819.7999877929688, np.PINF, np.NaN])
+    np.testing.assert_allclose(cib.values,
                             [[0.4827586206896552, 0.5172413793103449],
                              [0.032432432432432434, 0.9675675675675676],
                              [0.14432989690721648, 0.8556701030927835],

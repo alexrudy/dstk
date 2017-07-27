@@ -12,8 +12,8 @@ def test_recursion():
     binner = tfb.DecisionTreeBinner('test', max_leaf_nodes=4)
     binner.fit(data[:, 0], target)
 
-    np.testing.assert_equal(binner.splits, [13.094999313354492, 15.045000076293945, 16.924999237060547, np.PINF, np.NaN])
-    np.testing.assert_equal(binner.values, [[0.04905660377358491, 0.9509433962264151],
+    np.testing.assert_allclose(binner.splits, [13.094999313354492, 15.045000076293945, 16.924999237060547, np.PINF, np.NaN])
+    np.testing.assert_allclose(binner.values, [[0.04905660377358491, 0.9509433962264151],
                                             [0.2878787878787879, 0.7121212121212122],
                                             [0.8148148148148148, 0.18518518518518517],
                                             [0.9915254237288136, 0.00847457627118644],
@@ -24,8 +24,8 @@ def test_recursion_with_mdlp():
     binner = tfb.DecisionTreeBinner('test', mdlp=True)
     binner.fit(data[:, 0], target)
 
-    np.testing.assert_equal(binner.splits, [13.094999313354492, 15.045000076293945, 17.880001068115234, np.PINF, np.NaN])
-    np.testing.assert_equal(binner.values, [[0.04905660377358491, 0.9509433962264151],
+    np.testing.assert_allclose(binner.splits, [13.094999313354492, 15.045000076293945, 17.880001068115234, np.PINF, np.NaN])
+    np.testing.assert_allclose(binner.values, [[0.04905660377358491, 0.9509433962264151],
                                             [0.2878787878787879, 0.7121212121212122],
                                             [0.8533333333333334, 0.14666666666666667],
                                             [1.0, 0.0],
