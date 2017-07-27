@@ -15,7 +15,7 @@ data_df = pd.DataFrame(data, columns=cancer_ds['feature_names'])
 # possibly connected to statsmodel being compiled differently
 # solution for now is to mark it as x-fail
 
-@pytest.mark.xfail(condition=os.environ.get('TRAVIS','') == 'true', reason='on travis-ci.org')
+@pytest.mark.xfail(condition=bool(os.environ.get('TRAVIS','')), reason='on travis-ci.org')
 def test_p_spline_fitting():
     spline_fitter = psgam.PSplineGAM(max_iter=10)
 
