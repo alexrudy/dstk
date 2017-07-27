@@ -114,14 +114,14 @@ def load_from_tar(file_name):
 
     with tf.open(file_name, "r:gz") as tar:
         f = tar.extractfile('{}/{}.json'.format(model_name, model_name))
-        content = js.loads(f.read())
+        content = js.loads(f.read().decode('utf-8'))
         gam._n_features = content['num_features']
         gam.feature_names = content['feature_names']
 
         for member in tar.getmembers():
             if member.isfile() and (member.name != '{}/{}.json'.format(model_name, model_name)):
                 f = tar.extractfile(member.path)
-                content = js.loads(f.read())
+                content = js.loads(f.read().decode('utf-8'))
                 gam.shapes.update({content['feature_name']: ShapeFunction(content['splits'],
                                                                           content['values'],
                                                                           content['feature_name'])})

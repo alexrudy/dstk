@@ -85,13 +85,13 @@ def test_pseudo_response():
                                    err_msg="Pseudo Response doesn't match")
 
 
-def test_serialization_deserialization():
+def test_serialization_deserialization(tmpdir):
     gam = GAM(max_depth=3, max_leaf_nodes=5, random_state=42, balancer_seed=42)
     gam.train(data, labels, n_iter=5, learning_rate=0.0025, num_bags=1, num_workers=3)
 
-    gam.serialize('gbt_gam', file_path='/tmp/test_gam_serialization')
+    gam.serialize('gbt_gam', file_path=str(tmpdir))
 
-    scoring_gam = load_from_tar('/tmp/test_gam_serialization/gbt_gam.tar.gz')
+    scoring_gam = load_from_tar(str(tmpdir.join('gbt_gam.tar.gz')))
 
     for idx, vec in enumerate(data[:5, :]):
         gam_scores = scoring_gam.score(vec)
