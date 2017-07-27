@@ -2,6 +2,8 @@ import numpy as np
 import DSTK.GAM.PSplineGAM as psgam
 import sklearn.datasets as ds
 import pandas as pd
+import pytest
+import os
 
 cancer_ds = ds.load_breast_cancer()
 data = cancer_ds['data']
@@ -11,7 +13,9 @@ data_df = pd.DataFrame(data, columns=cancer_ds['feature_names'])
 
 # TODO: This test fails on TravisCI
 # possibly connected to statsmodel being compiled differently
-# solution for now is to delete this file before executing tox on TravisCI
+# solution for now is to mark it as x-fail
+
+@pytest.mark.xfail(condition=os.environ.get('TRAVIS','') == 'true', reason='on travis-ci.org')
 def test_p_spline_fitting():
     spline_fitter = psgam.PSplineGAM(max_iter=10)
 

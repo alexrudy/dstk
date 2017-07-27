@@ -2,7 +2,14 @@ language: python
 python:
   - "2.7"
   - "3.5"
+
+sudo: false
+# Ensuring trusty helps with tensorflow compatibility
+dist: trusty
+
+
 install:
+  - pip install --upgrade pip
   - pip install Cython # Needed for packaging
   - pip install tox-travis
 # command to run tests
